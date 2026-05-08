@@ -1,0 +1,6 @@
+{
+  "name": "Aarav - The English Bhai",
+  "description": "An AI-powered English learning platform featuring Aarav, your friendly elder brother who teaches English through immersive imagination scenarios in a mix of Hindi and English.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": []
+}

@@ -1,0 +1,26 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Progress",
+      "description": "Stores English learning progress for Aarav Bhai app.",
+      "type": "object",
+      "properties": {
+        "level": { "type": "integer", "description": "Current proficiency level (1-10)" },
+        "xp": { "type": "integer", "description": "Experience points within current level" },
+        "completedScenarios": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "IDs of scenarios completed by the user"
+        },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["level", "xp", "completedScenarios"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "User",
+      "description": "Main collection for user learning profile."
+    }
+  }
+}

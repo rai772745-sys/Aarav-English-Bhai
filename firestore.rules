@@ -1,0 +1,35 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper Primitives
+    function isSignedIn() { return request.auth != null; }
+    function isOwner(userId) { return isSignedIn() && request.auth.uid == userId; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+
+    // Validation Blueprint for User Progress
+    function isValidUser(data) {
+      return data.keys().hasAll(['level', 'xp', 'completedScenarios']) &&
+             data.keys().size() <= 4 &&
+             data.level is int && data.level >= 1 && data.level <= 10 &&
+             data.xp is int && data.xp >= 0 &&
+             data.completedScenarios is list && data.completedScenarios.size() <= 100;
+    }
+
+    match /users/{userId} {
+      allow get: if isOwner(userId) && isValidId(userId);
+      allow create: if isOwner(userId) && isValidId(userId) && isValidUser(incoming());
+      allow update: if isOwner(userId) && isValidId(userId) && isValidUser(incoming()) && (
+        // Only allow incremental updates to level and xp, completedScenarios can grow
+        incoming().level >= existing().level &&
+        incoming().xp >= 0
+      );
+    }
+  }
+}
