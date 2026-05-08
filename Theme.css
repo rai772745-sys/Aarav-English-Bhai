@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+@theme {
+  /* Core palette */
+  --color-saffron-50:  #FFF8ED;
+  --color-saffron-100: #FFE9C5;
+  --color-saffron-300: #FFBC5E;
+  --color-saffron-400: #FFA630;
+  --color-saffron-500: #F4861A;
+  --color-saffron-600: #D96A0A;
+  --color-saffron-700: #B5500A;
+
+  --color-indigo-50:   #EEF0FF;
+  --color-indigo-100:  #D8DCFF;
+  --color-indigo-300:  #8F9EFF;
+  --color-indigo-500:  #4361EE;
+  --color-indigo-700:  #2541C4;
+  --color-indigo-900:  #0D1B6E;
+  --color-indigo-950:  #080E3C;
+
+  --color-ivory:       #FEFBF4;
+  --color-gold:        #D4A017;
+  --color-teal:        #0C8A7B;
+
+  /* Typography */
+  --font-display: 'Baloo 2', cursive;
+  --font-body:    'DM Sans', sans-serif;
+  --font-devanagari: 'Noto Sans Devanagari', sans-serif;
+
+  /* Shadows */
+  --shadow-warm: 0 8px 40px -8px rgba(244, 134, 26, 0.45);
+  --shadow-glow: 0 0 60px -10px rgba(244, 134, 26, 0.6);
+  --shadow-indigo: 0 8px 40px -8px rgba(67, 97, 238, 0.4);
+  --shadow-card: 0 2px 24px rgba(0,0,0,0.07);
+
+  /* Animations */
+  @keyframes pulseRing {
+    0%   { transform: scale(1);   opacity: 0.75; }
+    100% { transform: scale(2.4); opacity: 0; }
+  }
+}
+
+@layer base {
+  :root {
+    --bg-page:         var(--color-ivory);
+    --bg-glass:        rgba(255, 252, 245, 0.72);
+    --bg-glass-dark:   rgba(13, 27, 110, 0.55);
+    --border-warm:     rgba(212, 160, 23, 0.28);
+    --text-primary:    #1A0A00;
+    --text-secondary:  #5C4033;
+    --text-muted:      #9C7B6A;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg-page);
+    color: var(--text-primary);
+    min-height: 100dvh;
+    @apply antialiased overflow-x-hidden;
+    scroll-behavior: smooth;
+  }
+}
+
+/* ── Background ── */
+.aarav-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(ellipse 120% 70% at 50% -5%, rgba(255, 186, 80, 0.22) 0%, transparent 60%), var(--color-ivory);
+}
+
+.aarav-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(212,160,23,0.18) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+/* ── Custom Utilities ── */
+.font-display    { font-family: var(--font-display); }
+.font-devanagari { font-family: var(--font-devanagari); }
+.font-body       { font-family: var(--font-body); }
+
+.orb-idle {
+  background: linear-gradient(145deg, #FFB347, #F4861A, #D96A0A);
+  box-shadow: var(--shadow-warm);
+}
+
+.orb-listening {
+  background: linear-gradient(145deg, #4361EE, #2541C4, #0D1B6E);
+  box-shadow: var(--shadow-indigo);
+}
+
+.orb-speaking {
+  background: linear-gradient(145deg, #0C8A7B, #066B5F, #034D44);
+}
+
+.bubble-user {
+  background: linear-gradient(135deg, var(--color-indigo-500), var(--color-indigo-700));
+  color: white;
+  border-radius: 20px 20px 6px 20px;
+}
+
+.bubble-aarav {
+  background: white;
+  border: 1.5px solid var(--border-warm);
+  color: var(--text-primary);
+  border-radius: 20px 20px 20px 6px;
+}
+
+.word-pill {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(244,134,26,0.1);
+  border: 1px solid rgba(244,134,26,0.2);
+  border-radius: 6px;
+  padding: 0 4px;
+  cursor: pointer;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.status-idle      { background: rgba(244,134,26,0.1); color: var(--color-saffron-600); }
+.status-listening { background: rgba(67,97,238,0.1);  color: var(--color-indigo-700); }
+.status-speaking  { background: rgba(12,138,123,0.1); color: var(--color-teal); }
+
+.corner-ornament {
+  position: fixed;
+  width: 180px; height: 180px;
+  opacity: 0.05;
+}
+
+@layer components {
+  .btn-primary {
+    font-family: var(--font-display);
+    @apply font-bold text-white rounded-2xl px-8 py-4 transition-all;
+    background: linear-gradient(135deg, var(--color-saffron-400), var(--color-saffron-600));
+  }
+
+  .input-hinglish {
+    @apply w-full rounded-2xl px-5 py-3 outline-none;
+    background: white;
+    border: 1.5px solid var(--border-warm);
+  }
+
+  .section-label {
+    @apply text-xs font-bold uppercase opacity-50;
+  }
+}
+
+.text-gradient-saffron {
+  background: linear-gradient(135deg, var(--color-saffron-500), var(--color-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
